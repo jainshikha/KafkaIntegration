@@ -16,9 +16,9 @@ public class KafkaConsumerService {
     @Autowired
     private MessageRepository messageRepository;
 
-    @KafkaListener(topics = "${kafka.consumer.topics}",groupId = "${kafka.consumer.groupId}")
+    @KafkaListener(topics = "${kafka.consumer.topics}", groupId = "${kafka.consumer.groupId}")
     public void consumeMessage(Message messageContent) {
-        logger.info(String.format("# -> Consumed message -> %s", messageContent));
+        logger.info("Consumed message {}", messageContent);
         // Save the message to the database
         messageRepository.save(messageContent);
     }

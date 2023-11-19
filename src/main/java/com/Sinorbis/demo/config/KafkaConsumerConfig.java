@@ -21,15 +21,18 @@ public class KafkaConsumerConfig {
     @Value("${kafka.consumer.groupId}")
     private String groupId;
 
+    /**
+     * Configures and creates a Kafka Consumer Factory for consuming messages.
+     *
+     * @return The configured ConsumerFactory instance.
+     */
     @Bean
     public ConsumerFactory<String, Message> consumerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, groupId); // Specify your consumer group ID
+        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class.getName()); // Assuming you have a custom deserializer for Message class
-        // Add any other necessary configurations
-
+        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class.getName());
         return new DefaultKafkaConsumerFactory<>(configProps);
     }
 

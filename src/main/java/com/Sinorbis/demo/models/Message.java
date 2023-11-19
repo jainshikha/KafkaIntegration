@@ -1,6 +1,7 @@
 package com.Sinorbis.demo.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder // Add builder pattern
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

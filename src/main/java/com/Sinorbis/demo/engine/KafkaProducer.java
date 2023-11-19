@@ -17,9 +17,17 @@ public class KafkaProducer {
     @Autowired
     private KafkaTemplate<String, Message> kafkaTemplate;
 
+    /**
+     * Sends a message to the Kafka topic.
+     *
+     * @param message The message to be sent.
+     */
     public void sendMessage(Message message) {
-        logger.info(String.format("# -> Producing message -> %s", message));
+
+        logger.info(" Producing message  {}", message);
+        // Send the message to the Kafka topic
         this.kafkaTemplate.send(TOPIC, message);
     }
+
 
 }

@@ -25,14 +25,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ChatBotController.class)
 class ChatBotControllerTest {
 
+    String sampleUser = "shikha";
+    String samplePass = "testdemo";
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private KafkaProducer kafkaProducer;
-
     @MockBean
     private MessageRepository messageRepository;
+
     private String getBasicAuthHeader(String username, String password) {
         String credentials = username + ":" + password;
         byte[] encodedCredentials = Base64.getEncoder().encode(credentials.getBytes(StandardCharsets.UTF_8));
@@ -50,7 +51,7 @@ class ChatBotControllerTest {
         mockMvc.perform(get("/chatBot/messages")
                         .param("status", status)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("user", "password"))
+                        .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader(sampleUser, samplePass))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(mockMessage.getId())); // Adjust this based on your Message class
@@ -58,29 +59,25 @@ class ChatBotControllerTest {
 
     @Test
     void getMessagesByStatus_shouldReturnNoContent_whenNoMessagesExist() throws Exception {
-        // Arrange
+
         String status = "NonExistentStatus";
         Mockito.when(messageRepository.findByStatus(status)).thenReturn(null);
-
-        // Act and Assert
         mockMvc.perform(get("/chatBot/messages")
                         .param("status", status)
-                        .contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("user", "password"))
+                        .contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader(sampleUser, samplePass))
                 )
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void replyToMessage_shouldSendMessage_whenMessagesExist() throws Exception {
-        // Arrange
         String reply = "TestReply";
         Message mockMessage = new Message(/* initialize with necessary values */);
         Mockito.when(messageRepository.findByStatus("Unprocessed")).thenReturn(Collections.singletonList(mockMessage));
 
-        // Act and Assert
         mockMvc.perform(post("/chatBot/messages")
                         .param("reply", reply)
-                        .contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("user", "password"))
+                        .contentType(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader(sampleUser, samplePass))
                 )
                 .andExpect(status().isOk());
 

@@ -14,19 +14,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .inMemoryAuthentication()
-            .withUser("user").password("{noop}password").roles("USER");
+                .inMemoryAuthentication()
+                .withUser("shikha").password("{noop}testdemo").roles("USER");
     }
 
     // Authorization configuration (secure endpoints)
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable() // For simplicity, CSRF protection disabled (not recommended in production)
-            .authorizeRequests()
+                .csrf().disable() // For simplicity, CSRF protection disabled (not recommended in production)
+                .authorizeRequests()
                 .antMatchers("/chatBot/messages").permitAll() // Allow access without authentication
                 .antMatchers("/chatBot/messages").authenticated() // Secure endpoint, requires authentication
                 .and()
-            .httpBasic(); // Use HTTP Basic Authentication
+                .httpBasic(); // Use HTTP Basic Authentication
     }
 }
