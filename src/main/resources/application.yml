@@ -1,0 +1,28 @@
+server:
+  port: 9000
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group_id
+      auto-offset-reset: earliest
+    producer:
+      bootstrap-servers: localhost:9092
+  datasource:
+    url: jdbc:h2:mem:sampleDb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    jpa:
+      spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console.enabled: true
+kafka:
+  consumer:
+    topics: SinorbisTopic
+    groupId: group-id
+  bootstrap:
+    servers: localhost:9092
+spring-doc:
+  swagger-ui:
+    path: swagger-ui.html
